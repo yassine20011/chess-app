@@ -8,26 +8,26 @@ The project is a chess game that can be played by two players. The game is playe
 
 ## Use case diagram
 
-<div  style="display: flex; flex-direction: column; align-items: center;">
-    <img src="use-case-diagram.svg" alt="Use case diagram" width="500" />
-</div>
+
+<center>
+    <img src="use-case-diagram.svg" alt="Use case diagram" width="900" height="900"/>
+</center>
 
 ## Class diagram
 
-<div  style="display: flex; flex-direction: column; align-items: center;">
-    <img src="class-diagram.svg" alt="Class diagram" width="500" />
-</div>
+<center>
+    <img src="class-diagram.svg" alt="Class diagram" width="900" height="900"/>
+</center>
 
 ## Sequence diagram
 
-<div  style="display: flex; flex-direction: column; align-items: center;">
-    <img src="sequence-diagram.svg" alt="Sequence diagram" width="500" />
-</div>
+<center>
+    <img src="sequence-diagram.svg" alt="Sequence diagram" width="900" height="900"/>
+</center>
 
 ## Activity Diagram
 
-<div style="display: flex; flex-direction: column; align-items: center;">
-    <img src="activity-diagram.svg" alt="Activity diagram" width="500"
-    height="500"/>
+<center>
+    <img src="activity-diagram.svg" alt="Activity diagram" width="900" height="900"/>
     <span>Activity diagram</span>
-</div>
+</center>
