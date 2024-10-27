@@ -9,23 +9,24 @@ The project is a chess game that can be played by two players. The game is playe
 ### Use case diagram
 
 <center>
-    <img src="use-case-diagram.svg" alt="Use case diagram" width="500"/>
+    <img src="use-case-diagram.svg" alt="Use case diagram" width="500" style="background-color: white"/>
 </center>
 
 ### Class diagram
 
 <center>
-    <img src="class-diagram.svg" alt="Class diagram" width="500"/>
+    <img src="class-diagram.svg" alt="Class diagram" width="500"
+    style="background-color: white"/>
 </center>
 
 ### Sequence diagram
 
 <center>
-    <img src="sequence-diagram.svg" alt="Sequence diagram" width="500"/>
+    <img src="sequence-diagram.svg" alt="Sequence diagram" width="500" style="background-color: white"/>
 </center>
 
 ## Activity Diagram
 
 <center>
-    <img src="activity-diagram.svg" alt="Activity diagram" width="500"/>
+    <img src="activity-diagram.svg" alt="Activity diagram" width="500" style="background-color: white"/>
 </center>
