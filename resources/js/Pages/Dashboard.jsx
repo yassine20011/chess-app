@@ -1,7 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
 
-export default function Dashboard() {
+
+export default function Dashboard({ user }) {
+
+
     return (
         <AuthenticatedLayout
             header={
@@ -12,15 +16,19 @@ export default function Dashboard() {
         >
             <Head title="Dashboard" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            You're logged in!
-                        </div>
-                    </div>
+            {/*  create game */}
+
+            <div className="flex flex-col items-center justify-center">
+                <div className="mt-4">
+                    <h1 className="text-3xl font-bold text-gray-800">Create Game</h1>
+                </div>
+                <div className="mt-4">
+                    <Link href="/matchmaking" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Game</Link>
                 </div>
             </div>
+
+
+
         </AuthenticatedLayout>
     );
 }
