@@ -65,26 +65,22 @@ npm run dev
 
 <center>
     <img src="use-case-diagram.svg" alt="Use case diagram" width="900" height="900"/>
-    <p>Use case diagram of the game</p>
 </center>
 
 ## Class diagram
 
 <center>
     <img src="class-diagram.svg" alt="Class diagram" width="900" height="900"/>
-    <p>Class diagram of the game</p>
 </center>
 
 ## Sequence diagram
 
 <center>
     <img src="sequence-diagram.svg" alt="Sequence diagram" width="900" height="900"/>
-    <p>Sequence diagram of the game</p>
 </center>
 
 ## Activity Diagram
 
 <center>
     <img src="activity-diagram.svg" alt="Activity diagram" width="900" height="900"/>
-    <p>Activity diagram of the game</p>
 </center>
