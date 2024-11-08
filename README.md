@@ -2,15 +2,15 @@
 
 ## Introduction
 
-The idea behind this project is to create a chess game that can be played by two players. The game will be implemented in using Laravel and React.js, along with Inertia.js. if unfamiliar with inertia.js is, you can find more information about it [here](https://inertiajs.com/).
+The idea behind this project is to create a chess game that can be played by two players. The game will be implemented using Laravel and React.js, along with Inertia.js. if unfamiliar with inertia.js is, you can find more information about it [here](https://inertiajs.com/who-is-it-for).
 
-I am creating this project, first of all, because I love playing chess. Secondly, i want to learn more about Laravel and explore Websockets. I'll be using Laravel broadcasting to implement the real-time functionality of the game, and I will use react.js just because i used to it.
+I am creating this project, first of all, because I love playing chess. Second, I want to learn more about Laravel and explore Websockets. I'll be using Laravel broadcasting to implement the game's real-time functionality, and I will use react.js just because I am used to it.
 
-The first move ♟️ is to create a conceptual plan for the project. you can find the conception below [here](#conception-of-the-project).
+The first move ♟️ is to create a conceptual plan for the project. The conception can be found below [here](#conception-of-the-project).
 
 **What is inertia.js?**
 
-Inertia.js lets you quickly build modern single-page React, Vue and Svelte apps using classic server-side routing and controllers. It provides the best of both worlds by giving you the simplicity of classic server-driven apps with the performance of single-page apps.
+Inertia.js lets you quickly build modern single-page React, Vue, and Svelte apps using classic server-side routing and controllers. It provides the best of both worlds by combining the simplicity of classic server-driven apps with the performance of single-page apps.
 
 If you are reading this and you want to test the project, you can clone the project and run the following commands:
 
