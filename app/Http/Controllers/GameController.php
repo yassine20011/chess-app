@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Game;
 use App\Models\Move;
 use Inertia\Inertia;
-use App\Events\MoveMade;
 use Illuminate\Routing\Controller;
+use App\Models\User;
 
 class GameController extends Controller
 {
@@ -15,14 +15,29 @@ class GameController extends Controller
     {
         $user = $request->user();
         $game = Game::findOrFail($id);
-
-
         $moves = Move::where('game_id', $game->id)->get();
+
+        $player1 = User::findOrFail($game->player1_id);
+        $player2 = User::findOrFail($game->player2_id);
+
 
         return Inertia::render('Game/MatchStarted', [
             'game' => $game,
             'user' => $user,
             'moves' => $moves,
+            'player1' => $player1,
+            'player2' => $player2,
+            'media' => [
+                "capture" => asset('sounds/Capture.mp3'),
+                "check" => asset('sounds/Check.mp3'),
+                "checkmate" => asset('sounds/Checkmate.mp3'),
+                "genericNotify" => asset('sounds/GenericNotify.mp3'),
+                "lowTime" => asset('sounds/LowTime.mp3'),
+                "move" => asset('sounds/Move.mp3'),
+                "promotion" => asset('sounds/Promotion.webm'),
+                "illegal" => asset('sounds/illegal.webm'),
+                "castle" => asset('sounds/castle.webm'),
+            ]
         ]);
     }
 
@@ -47,6 +62,7 @@ class GameController extends Controller
             'piece' => $move['piece'],
             'fen' => $move['fen'],
         ]);
+
 
         return response()->json(['message' => 'Move made']);
     }
