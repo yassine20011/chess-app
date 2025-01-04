@@ -4,6 +4,15 @@ import { Chessboard } from "react-chessboard";
 import axios from "axios";
 import { Head } from "@inertiajs/react";
 
+function playSound(sound) {
+    let audio = new Audio(sound);
+    audio.play();
+}
+
+const isCastling = (move) => {
+    return move.flags.includes("k") || move.flags.includes("q");
+};
+
 function PlayRandomMoveEngine({
     gameinfo,
     user,
@@ -12,34 +21,44 @@ function PlayRandomMoveEngine({
     player1,
     player2,
 }) {
-    const [chess, setChess] = useState(new Chess());
     const isWhite = user.id === gameinfo.player1_id;
     const isBlack = user.id === gameinfo.player2_id;
     const [movesList, setMovesList] = useState([]);
     const movesListRef = useRef(null);
+    let [gameStatus, setGameStatus] = useState(gameinfo.status);
+    let [chess, setChess] = useState(new Chess());
+    let [clock, setClock] = useState({
+        white: 600,
+        black: 600,
+    });
 
-    const playSound = (media) => {
-        const sound = new Audio(media);
-        sound.play();
+    const GameLogic = (moveMade) => {
+        if (isCastling(moveMade)) {
+            playSound(media.castling);
+        } else if (moveMade.flags.includes("e")) {
+            playSound(media.enpassant);
+        } else if (chess.inCheck()) {
+            playSound(media.check);
+        } else {
+            playSound(media.move);
+        }
     };
 
-    const isCastling = (move) => {
-        return move.flags.includes("k") || move.flags.includes("q");
-    };
-
-
+    // initial setup
     useEffect(() => {
         if (moves.length === 0) return;
         setMovesList(moves);
         setChess(new Chess(moves[moves.length - 1].fen));
     }, []);
 
+    // scroll to bottom of moves list
     useEffect(() => {
         if (movesListRef.current) {
             movesListRef.current.scrollTop = movesListRef.current.scrollHeight;
         }
     }, [movesList]);
 
+    // listen for opponent's move
     useEffect(() => {
         const channel = Echo.private("game." + gameinfo.id);
 
@@ -52,20 +71,13 @@ function PlayRandomMoveEngine({
                 });
 
                 // if move is illegal or not user's turn
-                if (moveMade === null)
-                {
+                if (moveMade === null) {
                     playSound(media.illegal);
                     return;
                 }
 
                 setChess(new Chess(chess.fen()));
-                // check if move is castling
-                if (isCastling(moveMade)) {
-                    playSound(media.castling);
-                } else {
-                    playSound(media.move);
-                }
-
+                GameLogic(moveMade);
                 setMovesList([
                     ...movesList,
                     {
@@ -84,6 +96,60 @@ function PlayRandomMoveEngine({
         };
     }, [chess]);
 
+    // listen for opponent's time and calculate the ping
+    useEffect(() => {
+        const channel = Echo.private("game." + gameinfo.id);
+
+        channel.listenForWhisper("time", (e) => {
+            setClock({
+                white: e.game_time.white,
+                black: e.game_time.black,
+            });
+        });
+
+        const interval = setInterval(() => {
+            let turn = chess.turn();
+
+            setClock((prevClock) => {
+                let newClock = { ...prevClock };
+
+                if (newClock.white === 0 || newClock.black === 0) {
+                    // send a post request to end the game
+                    const request = axios.patch("/game/" + gameinfo.id + "/status", {
+                        status: "timeout",
+                        time: newClock,
+                    });
+
+                    request.then((response) => {
+                        if (response.status === 200) {
+                            setGameStatus("timeout");
+                        }
+                    });
+
+                    clearInterval(interval);
+                    return newClock;
+                }
+
+                if (turn === "w") {
+                    newClock.white -= 1;
+                } else if (turn === "b") {
+                    newClock.black -= 1;
+                }
+                channel.whisper("time", {
+                    game_time: newClock,
+                });
+
+                return newClock;
+            });
+        }, 1000);
+
+        return () => {
+            channel.stopListeningForWhisper("time");
+            clearInterval(interval);
+        };
+    }, [chess.turn()]);
+
+    // handle user's move
     const handleDrop = (sourceSquare, targetSquare) => {
         try {
             const moveMade = chess.move({
@@ -98,13 +164,7 @@ function PlayRandomMoveEngine({
             }
 
             setChess(new Chess(chess.fen()));
-             // check if castle move
-             if (isCastling(moveMade)) {
-                playSound(media.castle);
-            } else {
-                playSound(media.move);
-            }
-
+            GameLogic(moveMade);
 
             Echo.private("game." + gameinfo.id).whisper("move", {
                 move: {
@@ -124,12 +184,13 @@ function PlayRandomMoveEngine({
                 },
             ]);
 
-            axios
-                .post("/game/" + gameinfo.id, {
+            axios.post("/game/" + gameinfo.id, {
                     from: sourceSquare,
                     to: targetSquare,
                     piece: moveMade.piece,
                     fen: chess.fen(),
+                    player_time:
+                        chess.turn() === "w" ? clock.white : clock.black,
                 })
                 .then((response) => {
                     console.log(response.data);
@@ -159,37 +220,44 @@ function PlayRandomMoveEngine({
                     />
                 </div>
 
+                {/*  contoler */}
                 <div className="h-96 overflow-y-auto w-1/2" ref={movesListRef}>
-                    <table className="overflow-x-auto w-full">
-                        <thead>
-                            <tr>
-                                <th className="px-4 py-2">Piece</th>
-                                <th className="px-4 py-2">Player</th>
-                                <th className="px-4 py-2">from</th>
-                                <th className="px-4 py-2">to</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {movesList.map((move, index) => (
-                                <tr key={index}>
-                                    <td className="border px-4 py-2">
-                                        {move.piece}
-                                    </td>
-                                    <td className="border px-4 py-2">
-                                        {index % 2 === 0
-                                            ? player1.name
-                                            : player2.name}
-                                    </td>
-                                    <td className="border px-4 py-2">
-                                        {move.position_from}
-                                    </td>
-                                    <td className="border px-4 py-2">
-                                        {move.position_to}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    <div className="flex justify-between">
+                        <div className="text-lg font-semibold">
+                            {player1.name} {isWhite ? "(You)" : ""}
+                        </div>
+                        <div className="text-lg font-semibold">
+                            {player2.name} {isBlack ? "(You)" : ""}
+                        </div>
+                    </div>
+
+                    {/*  players clock */}
+                    <div className="flex justify-between">
+                        <div className="text-lg font-semibold">
+                            {Math.floor(clock.white / 60)}:
+                            {clock.white % 60 < 10
+                                ? "0" + (clock.white % 60)
+                                : clock.white % 60}
+                        </div>
+                        <div className="text-lg font-semibold">
+                            {Math.floor(clock.black / 60)}:
+                            {clock.black % 60 < 10
+                                ? "0" + (clock.black % 60)
+                                : clock.black % 60}
+                        </div>
+                    </div>
+
+                    {movesList.map((move, index) => (
+                        <div
+                            key={index}
+                            className={`flex justify-between ${
+                                index % 2 === 0 ? "bg-gray-100" : ""
+                            }`}
+                        >
+                            <div className="text-sm">{index + 1}</div>
+                            <div className="text-sm">{move.position_to}</div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </>

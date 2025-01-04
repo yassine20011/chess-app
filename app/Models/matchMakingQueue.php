@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class matchMakingQueue extends Model
 {
-    protected $fillable = ['user_id', 'status'];
+    protected $fillable = ['user_id', 'status', 'game_time'];
 }

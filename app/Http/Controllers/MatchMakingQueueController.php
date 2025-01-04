@@ -46,24 +46,35 @@ class MatchMakingQueueController extends Controller
         $existingEntry = MatchmakingQueue::where('user_id', $user->id)->where('status', 'waiting')->first();
         if ($existingEntry) {
 
+            // remove the user from the queue
+            $existingEntry->delete();
+
+            // creating a new entry
+            MatchmakingQueue::create([
+                'user_id' => $user->id,
+                'status' => 'waiting',
+                'game_time' => $request->data['game_time']
+            ]);
+
             MatchPlayersJob::dispatch();
 
             return Inertia::render('MatchmakingQueue/Waiting', [
-                'userId' => $user->id
+                'userId' => $user->id,
             ]);
         }
 
         // Add user to the matchmaking queue
         MatchmakingQueue::create([
             'user_id' => $user->id,
-            'status' => 'waiting'
+            'status' => 'waiting',
+            'game_time' => $request->data['game_time']
         ]);
 
         MatchPlayersJob::dispatch();
 
 
         return Inertia::render('MatchmakingQueue/Waiting', [
-            'userId' => $user->id
+            'userId' => $user->id,
         ]);
 
     }
@@ -95,9 +106,8 @@ class MatchMakingQueueController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(matchMakingQueue $matchMakingQueue)
+    public function destroy(Request $request, matchMakingQueue $matchMakingQueue)
     {
-        //
     }
 
 

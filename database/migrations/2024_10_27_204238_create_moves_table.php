@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('position_to');
             $table->string('piece');
             $table->string('fen');
+            $table->integer('player_time');
             $table->timestamps();
         });
     }

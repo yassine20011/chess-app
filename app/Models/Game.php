@@ -8,14 +8,34 @@ use App\Models\Move;
 
 class Game extends Model
 {
-
     protected $fillable = [
         'player1_id',
         'player2_id',
         'status',
         'turn',
-        'winner_id'
+        'winner_id',
+        'player1_time',
+        'player2_time',
+        "game_time",
     ];
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        $this->save();
+    }
+
+    public function setPlayer1Time($time)
+    {
+        $this->player1_time = $time;
+        $this->save();
+    }
+
+    public function setPlayer2Time($time)
+    {
+        $this->player2_time = $time;
+        $this->save();
+    }
 
     public function moves()
     {
