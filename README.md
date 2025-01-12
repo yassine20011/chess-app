@@ -62,6 +62,27 @@ npm run dev
 ![alt text](image.png)
 
 
-## Contributions
+## Contributing
 
-If you want to contribute to this project, you can fork the project and create a pull request. I will be happy to review your code and merge it if it is relevant.
+Contributions are welcome! To contribute:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+
+```bash
+git checkout -b feature/your-feature
+```
+
+3. Make your changes and commit them.
+
+```bash
+git commit -m 'Add some feature'
+```
+
+4. Push to the branch.
+
+```bash
+git push origin feature/your-feature
+```
+
+5. Open a pull request 🎉
