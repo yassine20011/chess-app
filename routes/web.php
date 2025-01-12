@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/game/{id}', [GameController::class, 'show'])->name('game.show');
     Route::post('/game/{id}', [GameController::class, 'store'])->name('game.store');
     Route::patch('/game/{id}/status', [GameController::class, 'status'])->name('game.status');
+    Route::patch('/game/{id}/winner', [GameController::class, 'winner'])->name('game.winner');
 
 });
 

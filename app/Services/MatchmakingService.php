@@ -28,6 +28,8 @@ class MatchmakingService
             $game = Game::create([
                 'player1_id' => $firstPlayer->user_id,
                 'player2_id' => $secondPlayer->user_id,
+                'player1_time' => $firstPlayer->game_time,
+                'player2_time' => $secondPlayer->game_time,
                 'status' => 'ongoing',
                 'turn' => $firstPlayer->user_id,
                 'game_time' => $firstPlayer->game_time,
