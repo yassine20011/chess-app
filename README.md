@@ -6,7 +6,7 @@ The idea behind this project is to create a chess game that can be played by two
 
 I am creating this project, first of all, because I love playing chess. Second, I want to learn more about Laravel and explore Websockets. I'll be using Laravel broadcasting to implement the game's real-time functionality, and I will use react.js just because I am used to it.
 
-The first move ♟️ is to create a conceptual plan for the project. The conception can be found below [here](#conception-of-the-project).
+The first move ♟️ is to create a conceptual plan for the project. The conception can be found in the `diagrams` folder.
 
 **What is inertia.js?**
 
@@ -59,28 +59,9 @@ php artisan queue:listen
 npm run dev
 ```
 
-# Conception of the project
+![alt text](image.png)
 
-## Use case diagram
 
-<center>
-    <img src="use-case-diagram.svg" alt="Use case diagram" width="900" height="900"/>
-</center>
+## Contributions
 
-## Class diagram
-
-<center>
-    <img src="class-diagram.svg" alt="Class diagram" width="900" height="900"/>
-</center>
-
-## Sequence diagram
-
-<center>
-    <img src="sequence-diagram.svg" alt="Sequence diagram" width="900" height="900"/>
-</center>
-
-## Activity Diagram
-
-<center>
-    <img src="activity-diagram.svg" alt="Activity diagram" width="900" height="900"/>
-</center>
+If you want to contribute to this project, you can fork the project and create a pull request. I will be happy to review your code and merge it if it is relevant.
